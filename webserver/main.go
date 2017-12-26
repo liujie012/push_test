@@ -1,18 +1,16 @@
 package main
-
 import (
-	"net/http"
 	"io"
+	"net/http"
+	"log"
 )
-
+func HelloServer(w http.ResponseWriter, req *http.Request) {
+	io.WriteString(w, "hello, world!\n")
+}
 func main() {
-	http.HandleFunc("/",page)
-	http.ListenAndServe("8000",nil)
+	http.HandleFunc("/", HelloServer)
+	err := http.ListenAndServe(":12345", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
-
-
-func page (w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "page")
-}
-
-
